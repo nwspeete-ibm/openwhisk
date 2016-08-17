@@ -40,6 +40,8 @@ nginx:
     api: 443
     adminportal: 8443
 
+microgateway:
+  port: 49160
 db:
   immortal: subjects
   authkeys:

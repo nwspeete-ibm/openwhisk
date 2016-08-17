@@ -1,0 +1,8 @@
+---
+
+- name: remove microgateway
+  docker:
+    name: microgateway
+    image: "{{ docker_registry }}apic/microgateway:{{ docker_image_tag }}"
+    state: absent
+  ignore_errors: True

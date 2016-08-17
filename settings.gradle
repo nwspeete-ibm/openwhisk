@@ -13,6 +13,7 @@ include 'core:javaAction'
 include 'services:consul'
 include 'services:kafka'
 include 'services:zookeeper'
+include 'services:apic-microgateway'
 
 include 'tools:cli'
 include 'tools:go-cli'

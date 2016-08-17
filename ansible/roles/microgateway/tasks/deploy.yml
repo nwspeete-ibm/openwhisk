@@ -1,0 +1,15 @@
+---
+
+- name: pull the {{ docker_image_tag }} image of microgateway
+  shell: docker pull {{ docker_registry }}apic/microgateway:{{ docker_image_tag }}
+  when: docker_registry != ""
+
+- name: (re)start microgateway
+  docker:
+    name: microgateway
+    image: "{{ docker_registry }}apic/microgateway:{{ docker_image_tag }}"
+    state: reloaded
+    restart_policy: "{{ docker.restart.policy }}"
+    hostname: microgateway
+    ports:
+      - "{{ microgateway.port }}:4005"
