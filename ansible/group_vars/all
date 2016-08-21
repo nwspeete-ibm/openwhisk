@@ -41,7 +41,9 @@ nginx:
     adminportal: 8443
 
 microgateway:
-  port: 49160
+  port:
+    mgmt: 48123
+    gw: 49160
 db:
   immortal: subjects
   authkeys:

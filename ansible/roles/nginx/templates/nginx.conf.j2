@@ -39,6 +39,12 @@ http {
             proxy_pass http://{{ groups['controllers']|first }}:{{ controller.port }};
             proxy_read_timeout 310s;
         }
+        location /gateway/api {
+            proxy_pass https://{{ groups['controllers']|first }}:{{ microgateway.port.gw }};
+        }
+        location /gateway/mgmt {
+            proxy_pass http://{{ groups['controllers']|first }}:{{ microgateway.port.mgmt }}/whisk;
+        }
         location /openwhisk-0.1.0.tar.gz {
             root /etc/nginx;
         }

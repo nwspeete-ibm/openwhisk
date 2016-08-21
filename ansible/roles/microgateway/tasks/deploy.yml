@@ -11,5 +11,10 @@
     state: reloaded
     restart_policy: "{{ docker.restart.policy }}"
     hostname: microgateway
+    env:
+      "GW_PORT": "{{ microgateway.port.gw }}"
+      "MGMT_PORT": "{{ microgateway.port.mgmt }}"
+      "EXT_HOST": "https://{{ groups['controllers']|first }}"
     ports:
-      - "{{ microgateway.port }}:4005"
+      - "{{ microgateway.port.gw }}:4005"
+      - "{{ microgateway.port.mgmt }}:3000"
