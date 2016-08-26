@@ -9,5 +9,5 @@ RUN npm install && \
 
 COPY . /usr/src/app
 
-EXPOSE 443 4005
+EXPOSE 443 4005 3000
 CMD [ "npm", "start" ]
