@@ -21,6 +21,7 @@ import httplib
 import ssl
 import base64
 import collections
+import inquirer
 from urlparse import urlparse
 
 # global configurations, can control whether to allow untrusted certificates on HTTPS connections
@@ -318,3 +319,51 @@ def apiBase(props):
     host = hostBase(props)
     version = props['apiversion']
     return '%s/api/%s' % (host, version)
+
+def promptRestSpecs(args):
+    questions = [
+        inquirer.Text('route', message="What's the route?", default=args.name),
+        inquirer.List('verb',
+                      message="What's the verb?",
+                      choices=['GET', 'PUT' , 'POST', 'DELETE', 'HEAD'],
+                      ),
+        inquirer.List('param',
+                      message="Are there any parameters?",
+                      choices=['No', 'Yes'],
+                      ),
+    ]
+    answers = inquirer.prompt(questions)
+    return answers
+
+def promptParamSpecs():
+    questions = [
+        inquirer.Text('name', message="Parameter name?"),
+        inquirer.List('type',
+                      message="Type?",
+                      choices=['String', 'Object', 'Array', 'Integer', 'Float', 'Date', 'Password', 'Boolean'],
+                      ),
+        inquirer.List('in',
+                      message="Located in?",
+                      choices=['Body', 'Path', 'Query','Header','Form Data'],
+                      ),
+        inquirer.List('required',
+                      message="Required?",
+                      choices=['True', 'False'],
+                      ),
+        inquirer.List('another',
+                      message="Another parameter?",
+                      choices=['No', 'Yes'],
+                      ),
+    ]
+    answers = inquirer.prompt(questions)
+    return answers
+
+def promptTypeSpecs():
+    questions = [
+        inquirer.List('type',
+                      message="The Parameter is an Array of?",
+                      choices=['String', 'Object', 'Array', 'Integer', 'Float', 'Date', 'Password', 'Boolean'],
+                      )
+    ]
+    answers = inquirer.prompt(questions)
+    return answers

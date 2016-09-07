@@ -23,6 +23,7 @@ import argparse
 import urllib
 import subprocess
 from wskitem import Item
+from wskrestify import getRestifySpecs
 from wskutil import addAuthenticatedCommand, request, getParams, getActivationArgument, getAnnotations, responseError, parseQName, getQName, apiBase, getPrettyJson
 
 #
@@ -73,11 +74,17 @@ class Action(Item):
         subcmd.add_argument('-b', '--blocking', action='store_true', help='blocking invoke')
         subcmd.add_argument('-r', '--result', help='show only activation result if a blocking activation (unless there is a failure)', action='store_true')
 
+        subcmd = parser.add_parser('restify', help='convert action into a restful api')
+        subcmd.add_argument('name', help='the name of the action to restify')
+        addAuthenticatedCommand(subcmd, props)
+
         self.addDefaultCommands(parser, props)
 
     def cmd(self, args, props):
         if args.subcmd == 'invoke':
             return self.invoke(args, props)
+        elif args.subcmd == 'restify':
+            return self.restify(args, props)
         else:
             return super(Action, self).cmd(args, props)
 
@@ -241,3 +248,6 @@ class Action(Item):
 
     def csvToList(self, csv):
         return csv.split(',')
+
+    def restify(self, args, props):
+        return getRestifySpecs(self, args, props)
