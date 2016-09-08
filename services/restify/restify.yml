@@ -1,0 +1,6 @@
+---
+# This playbook deploys the restify.
+
+- hosts: edge
+roles:
+- restify
