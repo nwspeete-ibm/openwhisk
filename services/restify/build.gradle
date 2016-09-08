@@ -2,7 +2,7 @@ apply plugin: 'scala'
 apply plugin: 'application'
 apply plugin: 'eclipse'
 
-ext.dockerImageName = 'whisk/controller'
+ext.dockerImageName = 'whisk/restify'
 apply from: '../../gradle/docker.gradle'
 distDocker.dependsOn ':common:scala:distDocker', 'distTar'
 
@@ -15,5 +15,5 @@ dependencies {
     compile project(':common:scala')
 }
 
-mainClassName = "whisk.core.controller.Controller"
+mainClassName = "whisk.core.controller.Controller" //TODO update this for restify
 applicationDefaultJvmArgs = ["-Xmx2g"]
