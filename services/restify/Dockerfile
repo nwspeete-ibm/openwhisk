@@ -1,5 +1,5 @@
 FROM whisk/scala
-
+//TODO update this file to Restify dockerfile
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install swagger-ui
