@@ -1,0 +1,18 @@
+{# this template is used to generate a statsdConf_generated.js for booting a statsd server based on the given environment inventory #}
+
+{
+    port: {{ statsd.port }},
+    backends: [ 'bluemixMonitoring', 'statsd-elasticsearch-backend' ],
+    bluemixMonitoring: {
+        url: '{{ statsd_backend_url }}',
+        pin: '{{ statsd_backend_pin }}',
+        prefix: '{{ statsd_backend_prefix }}'
+    },
+    elasticsearch: {
+        port: {{ elk.port }},
+        host: '{{ groups['elk'] | first }}',
+        path: '/',
+        indexTimestamp: 'day'
+    },
+    dumpMessages: false
+}
