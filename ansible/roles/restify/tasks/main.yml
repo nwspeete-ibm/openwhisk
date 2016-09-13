@@ -1,6 +1,6 @@
 ---
-# This role will install restify
-# In deploy mode it will deploy an restify server
+# This role will install restify.
+# In deploy mode it will deploy an restify server.
 # In clean mode it will remove the restify server
 
 - include: deploy.yml
