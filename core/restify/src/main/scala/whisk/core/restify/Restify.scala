@@ -38,6 +38,11 @@ object Restify {
           //complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "Hello, World"))
           complete("Hello, World")
         }
+      }~
+      path("ping") {
+        get {
+          complete("pong")
+        }
       }
 
     val bindingFuture = Http().bindAndHandle(route, "0.0.0.0", 8080)

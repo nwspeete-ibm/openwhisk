@@ -1,29 +1,37 @@
-+---
-+# This task deploys a restify component
-+
-+- name: "pull the {{ docker_image_tag }} image of Restify"
-+  shell: "docker pull {{ docker_registry }}{{ docker_image_prefix }}/restify:{{ docker_image_tag }}"
-+  when: docker_registry != ""
-+
-+- name: (re)start restify
-+  docker:
-+    name: restify
-+    image: "{{ docker_registry }}{{ docker_image_prefix }}/restify:{{ docker_image_tag }}"
-+    state: reloaded
-+    restart_policy: "{{ docker.restart.policy }}"
-+    hostname: restify
-+    env:
-+      "EDGE_HOST": "{{ groups['edge'] | first }}"
-+      "MAIN_DOCKER_ENDPOINT": "{{ groups['controllers'] | first }}:{{ docker.port }}"
-+      "EDGE_DOCKER_ENDPOINT": "{{ groups['edge'] | first }}:{{ docker.port }}"
-+      "KAFKA_DOCKER_ENDPOINT": "{{ groups['kafka'] | first }}:{{ docker.port }}"
-+      "INVOKER_HOSTS": "{{ groups['invokers'] | join(',') }}"
-+      "DOCKER_PORT": "{{ docker.port }}"
-+      "CONSULSERVER_HOST": "{{ groups['consul_servers'] | first }}"
-+      "CONSUL_HOST_PORT4": "{{ consul.port.http }}"
-+      "KAFKA_HOST": "{{ groups['kafka'] | first }}"
-+      "KAFKA_HOST_PORT": "{{ kafka.port }}"
-+    ports:
-+      - "{{ restify.port }}:8080"
-+    volumes:
-+      - "{{ whisk_logs_dir }}/restify:/logs"
+---
+# This task deploys a restify component
+
+- name: "pull the {{ docker_image_tag }} image of Restify"
+  shell: "docker pull {{ docker_registry }}{{ docker_image_prefix }}/restify:{{ docker_image_tag }}"
+  when: docker_registry != ""
+
+- name: (re)start restify
+  docker:
+    name: restify
+    image: "{{ docker_registry }}{{ docker_image_prefix }}/restify:{{ docker_image_tag }}"
+    state: reloaded
+    restart_policy: "{{ docker.restart.policy }}"
+    hostname: restify
+    env:
+      "EDGE_HOST": "{{ groups['edge'] | first }}"
+      "MAIN_DOCKER_ENDPOINT": "{{ groups['controllers'] | first }}:{{ docker.port }}"
+      "EDGE_DOCKER_ENDPOINT": "{{ groups['edge'] | first }}:{{ docker.port }}"
+      "KAFKA_DOCKER_ENDPOINT": "{{ groups['kafka'] | first }}:{{ docker.port }}"
+      "INVOKER_HOSTS": "{{ groups['invokers'] | join(',') }}"
+      "DOCKER_PORT": "{{ docker.port }}"
+      "CONSULSERVER_HOST": "{{ groups['consul_servers'] | first }}"
+      "CONSUL_HOST_PORT4": "{{ consul.port.http }}"
+      "KAFKA_HOST": "{{ groups['kafka'] | first }}"
+      "KAFKA_HOST_PORT": "{{ kafka.port }}"
+    ports:
+      - "{{ restify.port }}:8080"
+    volumes:
+      - "{{ whisk_logs_dir }}/restify:/logs"
+
+- name: wait until restify server is up and running
+  uri:
+    url: "http://{{ inventory_hostname }}:{{ restify.port }}/ping"
+  register: result
+  until: result.status == 200
+  retries: 12
+  delay: 5
