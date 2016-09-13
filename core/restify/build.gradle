@@ -21,3 +21,4 @@ tasks.withType(ScalaCompile) {
 
 mainClassName = "whisk.core.restify.Restify"
 applicationDefaultJvmArgs = ["-Xmx2g"]
+
