@@ -1,6 +1,6 @@
 ---
 # This playbook deploys the restify.
 
-- hosts: edge
+- hosts: controllers
   roles:
   - restify

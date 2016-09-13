@@ -32,7 +32,7 @@ router.host={{ groups["edge"]|first }}
 cli.api.host={{ cli_api_host | default(groups['edge'] | first) }}
 zookeeper.host={{ groups["kafka"]|first }}
 invoker.hosts={{ groups["invokers"] | join(",") }}
-restify.hosts={{ groups["restify"]first}}
+restify.hosts={{ groups["restify"]|first}}
 
 
 edge.host.uiport=443
