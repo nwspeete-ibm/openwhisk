@@ -1,5 +1,5 @@
 ---
-# This role will install restify. 
+# This role will install restify.
 # In deploy mode it will deploy an restify server.
 # In clean mode it will remove the restify server as well as restify_conf_dir
 # In start mode it will start the restify server
