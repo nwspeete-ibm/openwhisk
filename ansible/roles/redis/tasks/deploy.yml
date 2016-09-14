@@ -1,0 +1,22 @@
+---
+# This role starts a redis component
+
+- name: ensure redis config directory exists
+  file:
+    path: "{{ redis_conf_dir }}"
+    state: directory
+
+- name: (re)start redis
+  docker:
+    name: redis
+    image: redis
+    command: redis-server --appendonly yes
+    state: reloaded
+    hostname: "redis"
+    volumes:
+      - "{{ redis_conf_dir }}:/etc/redis" 
+    restart_policy: "{{ docker.restart.policy }}"
+    expose:
+      - 6379
+    ports:
+      - "{{ redis.port }}:6379"
