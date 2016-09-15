@@ -1,0 +1,15 @@
+---
+# Remove redis containers.
+
+- name: remove redis
+  docker:
+    name: redis
+    image: redis
+    state: absent
+  ignore_errors: True
+
+- name: remove redis config directory
+  file:
+    path: "{{ redis_conf_dir }}"
+    state: absent
+  become: true
