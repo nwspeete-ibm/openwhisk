@@ -199,7 +199,12 @@ function addApiToGateway(gwInfo, tenantId, swaggerApi, gwApiId) {
       var statusCode = response ? response.statusCode : undefined;
       console.log('addApiToGateway: response status:'+ statusCode);
       if (error) console.error('Warning: addRouteToGateway request failed: '+ JSON.stringify(error));
-      if (body) console.log('addApiToGateway: response body: '+JSON.stringify(body));
+      if (body) {
+    	  //WIP clean log of basic auth
+    	  var cleanLog = JSON.parse(JSON.stringify(body));
+    	  delete cleanLog.test["Authorization"];
+    	  console.log('addApiToGateway: response body: '+JSON.stringify(cleanLog));
+      }
 
       if (error) {
         console.error('addApiToGateway: Unable to configure the API Gateway: '+JSON.stringify(error));
